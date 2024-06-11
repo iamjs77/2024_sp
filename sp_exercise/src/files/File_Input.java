@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.processing.SupportedOptions;
-
 public class File_Input {
 
 	/**
@@ -68,5 +66,87 @@ public class File_Input {
 	
 	static long getFileSizeKB(File file) {
 		return (file.length() / 1024);
+	}
+
+	static void solve4() throws IOException {
+		String filePath = "sample.json";
+		Path jsonFilePath = Paths.get(filePath);
+		String wholeData = new String(Files.readAllBytes(jsonFilePath));
+//		Gson gson = new Gson();
+//		JsonTest jTest = gson.fromJson(wholeData, JsonTest.class);
+//		System.out.println(jTest.name + " " + jTest.age);
+	}
+
+//	Read Directory
+	void FileDirList()
+	{
+		File directory = new File(".");
+		File[] fList = directory.listFiles();
+		for (File file : fList) {
+			if(file.isDirectory()) {
+				System.out.println("["+file.getName()+"]");
+			}
+			else {
+				System.out.println(file.getName());
+			}
+		}
+	}
+
+//	cf) 전체 디렉토리 재귀 호출
+	void FileSearchAll(String path)
+	{
+		File directory = new File(path);
+		File[] fList = directory.listFiles();
+		for (File file : fList) {
+			if (file.isDirectory()) {
+				FileSearchAll(file.getPath());
+			}
+			else {
+				System.out.println(file.getName());
+			}
+		}
+	}
+
+//	java 8 files.walk
+	void fileSearchAll_Files_walk() throws IOException {
+		Files.walk(Paths.get("/path/to/folder"))
+				.filter(Files::isRegularFile)
+				.forEach(System.out::println);
+		 Files.walk(Paths.get("/path/to/folder"))
+				.filter(Files::isRegularFile)
+				.collect(Collectors.toList());
+
+		 List<File> filesInFolder = Files.walk(Paths.get("/path/to/folder"))
+				.filter(Files::isRegularFile)
+				.map(Path::toFile)
+				.collect(Collectors.toList());
+
+	}
+
+//	file Size
+	public class JavaGetFileSize {
+
+		static final String FILE_NAME = "/Users/pankaj/Downloads/file.pdf";
+
+		public void main(String[] args) {
+			File file = new File(FILE_NAME);
+			if (!file.exists() || !file.isFile()) return;
+
+			System.out.println(getFileSizeBytes(file));
+			System.out.println(getFileSizeKiloBytes(file));
+			System.out.println(getFileSizeMegaBytes(file));
+		}
+
+		private String getFileSizeMegaBytes(File file) {
+			return (double) file.length() / (1024 * 1024) + " mb";
+		}
+
+		private  String getFileSizeKiloBytes(File file) {
+			return (double) file.length() / 1024 + "  kb";
+		}
+
+		private  String getFileSizeBytes(File file) {
+			return file.length() + " bytes";
+		}
 	}
 }
