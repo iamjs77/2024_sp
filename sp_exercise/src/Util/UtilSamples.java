@@ -2,6 +2,7 @@ package Util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -83,7 +84,7 @@ public class UtilSamples {
         //String → Byte Array
         String strTest = "ABCD123";
         byte [] byteTest = new byte[80];
-        byteTest = strTest.getBytes("UTF-8");
+        byteTest = strTest.getBytes(StandardCharsets.UTF_8);
         for (byte b : byteTest)
             System.out.print(b + " ");
         //출력) 65 66 67 68 49 50 51
